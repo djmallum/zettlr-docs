@@ -7,15 +7,16 @@ Zettlr offers you a plethora of options to customise your experience with the ap
 You can display the general preference dialog using either the shortcut <kbd>Cmd/Ctrl</kbd>+<kbd>,</kbd>, the toolbar button (the cog) or the respective menu item. The dialog will then show up and present to you all configuration options you may customise. They are ordered in ten tabs that you can see at the top of the dialog.
 
 * [General](#general): These options affect Zettlr as a whole
+* [Appearance](#appearance): Enable Darkmode, adjust theme and enable/disable toolbar buttons
+* [File Manager](#file-manager): Settings for how files and folders are displayed in the workspace and search windows, and file tabs. 
 * [Editor](#editor): These settings concern only the editor itself
-* [Export](#export): Control how your files are exported in this tab
-* [Citations](#citations): Control how to cite within Zettlr
-* [Zettelkasten](#zettelkasten): Adapt Zettlr to match your Zettelkasten system
-* [Display](#display): Control anything display-related
 * [Spellchecking](#spellchecking): Spellchecking and LanguageTool live here
 * [AutoCorrect](#autocorrect): AutoCorrect and MagicQuotes settings
+* [Citations](#citations): Control how to cite within Zettlr
+* [Zettelkasten](#zettelkasten): Adapt Zettlr to match your Zettelkasten system
+* [Snippets](#snippets): Define reuseable pieces of text with variables
+* [Import and Export](#import-and-export): Control how your files are imported exported in this tab
 * [Advanced](#advanced): Options for experienced users
-* [Toolbar](#toolbar): Customize the toolbar buttons
 
 ### General
 
@@ -105,6 +106,9 @@ In the file metadata display
 
 : **File creation time**: Display the file's creation time in appropriate places.
 
+### Appearance
+### File Manager
+
 ### Editor
 
 ![settings_editor.png](../img/settings_editor.png)
@@ -179,168 +183,6 @@ Count characters instead of words
 
 : If you write in a language where words are represented by single glyphs, such as Japanese or Chinese, activate this setting so that Zettlr counts these single glyphs rather than continuous strings of letters demarcated by whitespace. You can also activate this setting if you generally prefer to see character counts rather than word counts.
 
-### Export
-
-![settings_export.png](../img/settings_export.png)
-
-The export tab allows you to tweak all preferences concerning how your files are exported.
-
-Use the internal Pandoc for exports
-
-: By default, Zettlr uses its own Pandoc. If you want or have to use a system-wide installed Pandoc (must be in PATH), disable this setting. After restarting the application, Zettlr will use the system-wide Pandoc.
-
-Remove tags from files
-
-: If checked, Zettlr will run a special Lua-filter that removes tags which are defined within your files (not the ones in the YAML frontmatter).
-
-Remove internal links completely
-
-: If checked, internal links in the format `[[<ID>]]` (default: `[[20220117101322]]`) will be completely removed upon export.
-
-Unlink internal links
-
-: If checked, internal links in the format `[[<ID>]]` will have their links stripped, so that only the contents of the link remain.
-
-Don't touch internal links
-
-: This leaves internal links as they are.
-
-Target directory for exported files
-
-: **Temporary directory**: This directs Zettlr to put any file exports that you have into the temporary directory. This is intended so that you can export frequently, and once you are happy with how a file looks like, use the "Save as …" function of the default application (e.g. Adobe Reader for PDF) to save it in your preferred folder. Files in the temporary directory are automatically removed when you restart your computer, or at other convenient times. _This is the recommended setting._
-
-: **Current working directory**: This directs Zettlr to always put exports into the directory of the source file. Subsequent exports will overwrite previous exports. While you do not have to "Save as …" in order to keep an exported file, this may lead to cluttered directories, which is why we do not recommend this setting.
-
-: **Ask for directory**: Ask you where to export a file to on every export.
-
-Custom Commands
-
-: This section allows you to specify custom export commands. The display name will be shown to you in the single-file export popover as well as the project settings. The command is what will be actually run (as a child process). Here, you should paste something that can be run in a terminal (e.g., bash or zsh on Unixoid systems, or PowerShell or the command line on Windows).
-
-: The command will receive a single argument: the absolute path to the file that is being exported (in the case of a single-file export) or an entire absolute folder path (in the case of a project export). Your command can then use this information as it sees fit.
-
-: > **Attention**: Do not add arbitrary commands that you do not understand. This could put your data or computer at risk. Please read our [notes on security](../getting-started/a-note-on-security.md) before modifying this section.
-
-### Citations
-
-![settings_citations.png](../img/settings_citations.png)
-
-How would you like autocomplete to insert your citations?
-
-: Choose the setting which will cite in a way which you use most often. If you need one of the other formats, you can always modify the autocompleted citation. _Note: This only applies if you autocomplete a cite key._
-
-: `[@Author2015, p. 123]`: When you start typing a citation, Zettlr will automatically surround it in square brackets so that you can create a "full" citation that will render as, e.g., `(Author 2015, 123)`.
-
-: `@Author2015`: Activating this setting means that Zettlr will simply complete the citekey and do nothing else. Useful if you frequently cite with author names in-text. This will render as, e.g., `Author (2015)`.
-
-: `@Author2015 [p. 123]`: This will tell Zettlr to add square brackets _after_ the citation key, which will result in, e.g., `Author(2015, 123)`.
-
-Citation Database (CSL JSON or BibTex)
-
-: Select a global main library which contains your citations. This applies only to files which do not have a file-specific database in its frontmatter `bibliography` key. Those files will receive cite keys from their own library instead of this main library. _Note: BibLaTeX is not (yet) supported._
-
-CSL-Style (optional)
-
-: Select a default CSL stylesheet to overwrite the default citation style (APA). You can download any file from the [Zotero style repository](https://www.zotero.org/styles). _Note: This only affects exports. Zettlr will internally always use an in-text citation style for preview purposes. Note further that you can select specific CSL stylesheets per each profile, and per each file._
-
-### Zettelkasten
-
-![settings_zettelkasten.png](../img/settings_zettelkasten.png)
-
-In this tab you can customise the way Zettlr works with your existing Zettelkasten system. In most cases you won't need to touch these options, except you want to use a custom system.
-
-ID regular expression
-
-: This is a JavaScript regular expression which should match the IDs you use inside your Zettelkasten system (default: `(\d{14})`). Zettlr will use this expression to find IDs for your files. The first found ID will be used. Zettlr first searches the file name (e.g., when you use `20220117102945.md` as the filenames), then the content.
-
-Pattern used to generate new IDs
-
-: Use variables to have variable IDs. This should be matched by your regular expression. Available variables: `%Y` (Year, four digits), `%y` (Year, two digits), `%M` (Month, two digits), `%D` (Day, two digits), `%W` (Week, two digits), `%h` (Hour, two digits), `%m` (Minute, two digits), `%s` (Seconds, two digits), `%X` (Unix timestamp), `%uuid4` (UUID v4).
-
-Link with filename only
-
-: If selected, Zettlr will always link using filenames, and never the IDs of the file. Useful for some Zettelkasten systems.
-
-When linking files, add the filename …
-
-: _Note: This setting is only available when "Link with filename only" is disabled._
-
-: **always**: Always add the filename, even if the file has no ID, thus potentially duplicating the filename (e.g., `[[Filename.md]] Filename.md`).
-
-: **only when linking using the ID**: Add the filename if the file you are linking has an ID (e.g., `[[20220117102945]] Filename.md` if the file has an ID, `[[Filename.md]]` otherwise).
-
-: **never**: Never add the filename, even when linking using IDs (e.g., `[[20220117102945]]` if the file has an ID, or `[[Filename.md]]` if it does not).
-
-Start a search when following Zettelkasten-links
-
-: When checked, Zettlr will start a full-text search for the contents of the link you just followed.
-
-Automatically create non-existing files when following internal links
-
-: If checked, Zettlr will automatically create new files matching the file link, if it could not find the file (e.g., clicking on `[[non-existing-file]]` will automatically create the file `non-existing-file.md`).
-
-Put auto-created files into this directory (must be loaded in Zettlr)
-
-: This setting is useful if you have a Zettelkasten loaded into Zettlr alongside other directories. If you set this to a directory which is loaded in Zettlr, the app will never auto-create any files in any other directory except this one. _Note: This setting only applies to when you click an internal link, not when you create a new file manually._
-
-### Display
-
-![settings_display.png](../img/settings_display.png)
-
-This tab controls how the editor displays certain elements. Zettlr uses a semi-preview approach to Markdown and only renders some elements. On this tab you can control which elements will be rendered.
-
-Render Citations
-
-: Renders citations in a preview-format (always in-text). Requires a citation database to be loaded in the [Citations](#citations) tab, or the file to possess a file-specific database in its `bibliography` frontmatter key.
-
-Render Iframes
-
-: Renders embedded content (e.g., YouTube or Vimeo videos).
-
-Render Images
-
-: Renders images in your files.
-
-Render Links
-
-: Renders links in your files.
-
-Render Math
-
-: Renders any [math content](../core/math.md) in your files (surrounded with Dollar signs).
-
-Render Tasks
-
-: Renders task lists (`- [ ]`) in your files
-
-Hide heading characters
-
-: Instead of seeing the heading characters (`#`) this will display an element indicating the heading level. Clicking on that element allows you to change the heading level.
-
-Render emphasis
-
-: Sets the editor into a pseudo-WYSIWYG mode, attempting to completely hide all formatting characters unless you move your cursor inside.
-
-Theme
-
-: The theme selector allows you to select one of the available themes. You can further customize the appearance of Zettlr using [Custom CSS](../advanced/custom-css.md).
-
-Use the operating system's accent colour instead of the theme colour
-
-: If disabled, Zettlr uses the theme's accent color to highlight certain elements. If selected, Zettlr will use your operating system's accent color, which you can select in the corresponding system preferences. _Note: On Linux, this will be ineffective and set the highlighting color to Zettlr's Crayola Green._
-
-Hide toolbar in distraction free mode
-
-: If selected, Zettlr will remove the toolbar in distraction free mode.
-
-Maximum width of images (percent)
-
-: Select the maximum width of images in the editor (in percent of the total editor width). Smaller images will not be stretched.
-
-Maximum height of images (percent)
-
-: Select the maximum height of images in the editor (in percent of the total window height). Smaller images will not be stretched.
-
 ### Spellchecking
 
 ![settings_spellchecking.png](../img/settings_spellchecking.png)
@@ -407,6 +249,172 @@ AutoCorrect Replacement Table
 
 : You can delete any key-value pair, and also add more by scrolling down to the end of the list.
 
+### Citations
+
+![settings_citations.png](../img/settings_citations.png)
+
+How would you like autocomplete to insert your citations?
+
+: Choose the setting which will cite in a way which you use most often. If you need one of the other formats, you can always modify the autocompleted citation. _Note: This only applies if you autocomplete a cite key._
+
+: `[@Author2015, p. 123]`: When you start typing a citation, Zettlr will automatically surround it in square brackets so that you can create a "full" citation that will render as, e.g., `(Author 2015, 123)`.
+
+: `@Author2015`: Activating this setting means that Zettlr will simply complete the citekey and do nothing else. Useful if you frequently cite with author names in-text. This will render as, e.g., `Author (2015)`.
+
+: `@Author2015 [p. 123]`: This will tell Zettlr to add square brackets _after_ the citation key, which will result in, e.g., `Author(2015, 123)`.
+
+Citation Database (CSL JSON or BibTex)
+
+: Select a global main library which contains your citations. This applies only to files which do not have a file-specific database in its frontmatter `bibliography` key. Those files will receive cite keys from their own library instead of this main library. _Note: BibLaTeX is not (yet) supported._
+
+CSL-Style (optional)
+
+: Select a default CSL stylesheet to overwrite the default citation style (APA). You can download any file from the [Zotero style repository](https://www.zotero.org/styles). _Note: This only affects exports. Zettlr will internally always use an in-text citation style for preview purposes. Note further that you can select specific CSL stylesheets per each profile, and per each file._
+
+### Zettelkasten
+
+![settings_zettelkasten.png](../img/settings_zettelkasten.png)
+
+In this tab you can customise the way Zettlr works with your existing Zettelkasten system. In most cases you won't need to touch these options, except you want to use a custom system.
+
+ID regular expression
+
+: This is a JavaScript regular expression which should match the IDs you use inside your Zettelkasten system (default: `(\d{14})`). Zettlr will use this expression to find IDs for your files. The first found ID will be used. Zettlr first searches the file name (e.g., when you use `20220117102945.md` as the filenames), then the content.
+
+Pattern used to generate new IDs
+
+: Use variables to have variable IDs. This should be matched by your regular expression. Available variables: `%Y` (Year, four digits), `%y` (Year, two digits), `%M` (Month, two digits), `%D` (Day, two digits), `%W` (Week, two digits), `%h` (Hour, two digits), `%m` (Minute, two digits), `%s` (Seconds, two digits), `%X` (Unix timestamp), `%uuid4` (UUID v4).
+
+Link with filename only
+
+: If selected, Zettlr will always link using filenames, and never the IDs of the file. Useful for some Zettelkasten systems.
+
+When linking files, add the filename …
+
+: _Note: This setting is only available when "Link with filename only" is disabled._
+
+: **always**: Always add the filename, even if the file has no ID, thus potentially duplicating the filename (e.g., `[[Filename.md]] Filename.md`).
+
+: **only when linking using the ID**: Add the filename if the file you are linking has an ID (e.g., `[[20220117102945]] Filename.md` if the file has an ID, `[[Filename.md]]` otherwise).
+
+: **never**: Never add the filename, even when linking using IDs (e.g., `[[20220117102945]]` if the file has an ID, or `[[Filename.md]]` if it does not).
+
+Start a search when following Zettelkasten-links
+
+: When checked, Zettlr will start a full-text search for the contents of the link you just followed.
+
+Automatically create non-existing files when following internal links
+
+: If checked, Zettlr will automatically create new files matching the file link, if it could not find the file (e.g., clicking on `[[non-existing-file]]` will automatically create the file `non-existing-file.md`).
+
+Put auto-created files into this directory (must be loaded in Zettlr)
+
+: This setting is useful if you have a Zettelkasten loaded into Zettlr alongside other directories. If you set this to a directory which is loaded in Zettlr, the app will never auto-create any files in any other directory except this one. _Note: This setting only applies to when you click an internal link, not when you create a new file manually._
+
+### Snippets
+
+### Display
+
+<!-- **DEPRECATED** -->
+
+![settings_display.png](../img/settings_display.png)
+
+This tab controls how the editor displays certain elements. Zettlr uses a semi-preview approach to Markdown and only renders some elements. On this tab you can control which elements will be rendered.
+
+Render Citations
+
+: Renders citations in a preview-format (always in-text). Requires a citation database to be loaded in the [Citations](#citations) tab, or the file to possess a file-specific database in its `bibliography` frontmatter key.
+
+Render Iframes
+
+: Renders embedded content (e.g., YouTube or Vimeo videos).
+
+Render Images
+
+: Renders images in your files.
+
+Render Links
+
+: Renders links in your files.
+
+Render Math
+
+: Renders any [math content](../core/math.md) in your files (surrounded with Dollar signs).
+
+Render Tasks
+
+: Renders task lists (`- [ ]`) in your files
+
+Hide heading characters
+
+: Instead of seeing the heading characters (`#`) this will display an element indicating the heading level. Clicking on that element allows you to change the heading level.
+
+Render emphasis
+
+: Sets the editor into a pseudo-WYSIWYG mode, attempting to completely hide all formatting characters unless you move your cursor inside.
+
+Theme
+
+: The theme selector allows you to select one of the available themes. You can further customize the appearance of Zettlr using [Custom CSS](../advanced/custom-css.md).
+
+Use the operating system's accent colour instead of the theme colour
+
+: If disabled, Zettlr uses the theme's accent color to highlight certain elements. If selected, Zettlr will use your operating system's accent color, which you can select in the corresponding system preferences. _Note: On Linux, this will be ineffective and set the highlighting color to Zettlr's Crayola Green._
+
+Hide toolbar in distraction free mode
+
+: If selected, Zettlr will remove the toolbar in distraction free mode.
+
+Maximum width of images (percent)
+
+: Select the maximum width of images in the editor (in percent of the total editor width). Smaller images will not be stretched.
+
+Maximum height of images (percent)
+
+: Select the maximum height of images in the editor (in percent of the total window height). Smaller images will not be stretched.
+
+### Import and Export
+
+![settings_export.png](../img/settings_export.png)
+
+The export tab allows you to tweak all preferences concerning how your files are exported.
+
+Use the internal Pandoc for exports
+
+: By default, Zettlr uses its own Pandoc. If you want or have to use a system-wide installed Pandoc (must be in PATH), disable this setting. After restarting the application, Zettlr will use the system-wide Pandoc.
+
+Remove tags from files
+
+: If checked, Zettlr will run a special Lua-filter that removes tags which are defined within your files (not the ones in the YAML frontmatter).
+
+Remove internal links completely
+
+: If checked, internal links in the format `[[<ID>]]` (default: `[[20220117101322]]`) will be completely removed upon export.
+
+Unlink internal links
+
+: If checked, internal links in the format `[[<ID>]]` will have their links stripped, so that only the contents of the link remain.
+
+Don't touch internal links
+
+: This leaves internal links as they are.
+
+Target directory for exported files
+
+: **Temporary directory**: This directs Zettlr to put any file exports that you have into the temporary directory. This is intended so that you can export frequently, and once you are happy with how a file looks like, use the "Save as …" function of the default application (e.g. Adobe Reader for PDF) to save it in your preferred folder. Files in the temporary directory are automatically removed when you restart your computer, or at other convenient times. _This is the recommended setting._
+
+: **Current working directory**: This directs Zettlr to always put exports into the directory of the source file. Subsequent exports will overwrite previous exports. While you do not have to "Save as …" in order to keep an exported file, this may lead to cluttered directories, which is why we do not recommend this setting.
+
+: **Ask for directory**: Ask you where to export a file to on every export.
+
+Custom Commands
+
+: This section allows you to specify custom export commands. The display name will be shown to you in the single-file export popover as well as the project settings. The command is what will be actually run (as a child process). Here, you should paste something that can be run in a terminal (e.g., bash or zsh on Unixoid systems, or PowerShell or the command line on Windows).
+
+: The command will receive a single argument: the absolute path to the file that is being exported (in the case of a single-file export) or an entire absolute folder path (in the case of a project export). Your command can then use this information as it sees fit.
+
+: > **Attention**: Do not add arbitrary commands that you do not understand. This could put your data or computer at risk. Please read our [notes on security](../getting-started/a-note-on-security.md) before modifying this section.
+
 ### Advanced
 
 ![settings_advanced.png](../img/settings_advanced.png)
@@ -460,6 +468,7 @@ Time to wait before writing a file is considered done (in ms)
 : Increase this threshold, if Zettlr recognizes too many remote changes.
 
 ### Toolbar
+<!-- **DEPRECATED** -->
 
 ![settings_toolbar.png](../img/settings_toolbar.png)
 
